@@ -96,6 +96,9 @@ while (1){
             break;
 
         case 0x2:
+            uLCD.cls();
+            uLCD.locate(2,2);
+            uLCD.printf("You select %dhz",frequency[barLevel]);
             whileBreaker = true;
             break;
 
@@ -159,14 +162,11 @@ while (1){
 
     if (whileBreaker == true)
     {
-        uLCD.cls();
+        
         break;
     }
         
 
-}
-
-
-     
-
+    }
+   
 }
