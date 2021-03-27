@@ -1,18 +1,45 @@
-#include "mbed.h"
-
+c#include "mbed.h"
+#include "wave.h"
 #include "uLCD_4DGL.h"
+#include<iostream>
+using namespace std::chrono;
+using namespace std;
 
-
+AnalogIn Ain(A0);
 uLCD_4DGL uLCD(D1, D0, D2); // serial tx, serial rx, reset pin;
-BusIn Buttons(D13, D12, D11);
-int frequency[9] = {120,240,360,480,600,720,840,960,1080};
+BusIn Buttons(D12, D11, D10);
+int frequency[9] = {10,20,30,40,50,100,200,400,800};
+float ADCdata[500];
+float period;
+
+EventQueue eventQueue;
+EventQueue printfQueue;
+
+Thread thread;
+
+void sampling() {
+    while(1) {
+
+        for (int i = 0; i < 500; i++){
+            ADCdata[i] = Ain;
+           ThisThread::sleep_for(2ms);
+        }
+        for (int i = 0; i < 500; i++){
+            cout << ADCdata[i] << "\r\n";
+            //printf("%f\r\n", ADCdata[i]);
+        }
+        ThisThread::sleep_for(5000ms);
+    }
+}
+
+
 int main()
 
 {
 
     // basic printf demo = 16 by 18 characters on screen
     uLCD.color(GREEN);
-
+    float period;
     uLCD.printf("\nHello uLCD World\n"); //Default Green on black text
 
     uLCD.printf("\n  Starting Demo...");
@@ -36,7 +63,7 @@ bool whileBreaker = false;
 
 while (1){
     
-    switch(Buttons){
+        switch(Buttons){
         case 0x4:
             if(barLevel >= 8)
             {
@@ -97,7 +124,7 @@ while (1){
 
         case 0x2:
             uLCD.cls();
-            uLCD.locate(2,2);
+            uLCD.locate(1,1);
             uLCD.printf("You select %dhz",frequency[barLevel]);
             whileBreaker = true;
             break;
@@ -160,13 +187,18 @@ while (1){
             break;
     }
 
-    if (whileBreaker == true)
-    {
-        
-        break;
+            if (whileBreaker == true){ 
+                break;
+            }
+    
     }
-        
-
-    }
+    
+    
+    
+    eventQueue.call(&sampling);
+    Thread eventThread(osPriorityNormal);
+    eventThread.start(callback(&eventQueue, &EventQueue::dispatch_forever));
+    wave(frequency[barLevel]);
+    
    
 }
