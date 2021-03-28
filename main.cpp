@@ -1,4 +1,4 @@
-c#include "mbed.h"
+#include "mbed.h"
 #include "wave.h"
 #include "uLCD_4DGL.h"
 #include<iostream>
@@ -8,25 +8,24 @@ using namespace std;
 AnalogIn Ain(A0);
 uLCD_4DGL uLCD(D1, D0, D2); // serial tx, serial rx, reset pin;
 BusIn Buttons(D12, D11, D10);
-int frequency[9] = {10,20,30,40,50,100,200,400,800};
+int frequency[6] = {5,30,40,50,100,200};
 float ADCdata[500];
-float period;
 
 EventQueue eventQueue;
 EventQueue printfQueue;
 
-Thread thread;
+
 
 void sampling() {
     while(1) {
 
         for (int i = 0; i < 500; i++){
             ADCdata[i] = Ain;
-           ThisThread::sleep_for(2ms);
+           ThisThread::sleep_for(1000ms/500);
         }
         for (int i = 0; i < 500; i++){
             cout << ADCdata[i] << "\r\n";
-            //printf("%f\r\n", ADCdata[i]);
+            
         }
         ThisThread::sleep_for(5000ms);
     }
@@ -38,7 +37,7 @@ int main()
 {
 
     // basic printf demo = 16 by 18 characters on screen
-    uLCD.color(GREEN);
+    uLCD.color(BLUE);
     float period;
     uLCD.printf("\nHello uLCD World\n"); //Default Green on black text
 
@@ -56,7 +55,7 @@ int main()
 
     uLCD.locate(1,2);
 
-    uLCD.printf(" 720hz\n------");
+    uLCD.printf(" 200hz\n------");
 
 int barLevel  = 5;
 bool whileBreaker = false;
@@ -65,7 +64,7 @@ while (1){
     
         switch(Buttons){
         case 0x4:
-            if(barLevel >= 8)
+            if(barLevel >= 5)
             {
                 uLCD.cls();
                 uLCD.text_width(2); //4X size text
@@ -102,9 +101,9 @@ while (1){
 
                 uLCD.text_height(4);
 
-                if(barLevel >= 6)
+                if(barLevel >= 4)
                     uLCD.color(BLUE);
-                else if(barLevel <= 2)
+                else if(barLevel <= 1)
                     uLCD.color(RED);
                 else
                     uLCD.color(GREEN);
@@ -143,7 +142,7 @@ while (1){
                 uLCD.printf(" N\\A");
                 ThisThread::sleep_for(50ms);
 
-                char bar[9] = "";
+                char bar[6] = "";
                 for(int count = 0; count <= barLevel; count++)
                 {
                     bar[count] = '-';
@@ -167,16 +166,16 @@ while (1){
 
                 uLCD.text_height(4);
 
-                    if(barLevel<=2)
+                    if(barLevel<=1)
                         uLCD.color(RED);
-                    else if(barLevel >=6)
+                    else if(barLevel >=4)
                         uLCD.color(BLUE);
                     else
                         uLCD.color(GREEN);
 
                 uLCD.locate(1,2);
                 
-                char bar[9] = "";
+                char bar[6] = "";
                 for(int count = 0; count <= barLevel; count++)
                 {
                     bar[count] = '-';
