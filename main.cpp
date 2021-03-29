@@ -22,7 +22,7 @@ void sampling() {
            ThisThread::sleep_for(2ms);
         }
         for (int i = 0; i < 500; i++){
-            cout << ADCdata[i] << "\r\n";
+            cout << ADCdata[i] * 3.3 << "\r\n";
         }
         ThisThread::sleep_for(5000ms);
     }
@@ -59,7 +59,7 @@ while (1){
     
         switch(Buttons){
         case 0x4:
-            if(barLevel >= 5)
+            if(barLevel >= 6)
             {
                 uLCD.cls();
                 uLCD.text_width(2); 
