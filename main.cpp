@@ -6,26 +6,23 @@ using namespace std::chrono;
 using namespace std;
 
 AnalogIn Ain(A0);
-uLCD_4DGL uLCD(D1, D0, D2); // serial tx, serial rx, reset pin;
+uLCD_4DGL uLCD(D1, D0, D2); 
 BusIn Buttons(D12, D11, D10);
-int frequency[6] = {5,30,40,50,100,200};
+int frequency[7] = {5,30,40,50,100,150,200};
 float ADCdata[500];
 
 EventQueue eventQueue;
 EventQueue printfQueue;
-
-
 
 void sampling() {
     while(1) {
 
         for (int i = 0; i < 500; i++){
             ADCdata[i] = Ain;
-           ThisThread::sleep_for(1000ms/500);
+           ThisThread::sleep_for(2ms);
         }
         for (int i = 0; i < 500; i++){
             cout << ADCdata[i] << "\r\n";
-            
         }
         ThisThread::sleep_for(5000ms);
     }
@@ -35,11 +32,9 @@ void sampling() {
 int main()
 
 {
-
-    // basic printf demo = 16 by 18 characters on screen
     uLCD.color(BLUE);
-    float period;
-    uLCD.printf("\nHello uLCD World\n"); //Default Green on black text
+    
+    uLCD.printf("\nHello uLCD World\n"); 
 
     uLCD.printf("\n  Starting Demo...");
 
@@ -47,15 +42,15 @@ int main()
 
     uLCD.cls();
 
-    uLCD.text_width(2); //4X size text
+    uLCD.text_width(2); 
 
     uLCD.text_height(4);
 
-    uLCD.color(GREEN);
+    uLCD.color(BLUE);
 
     uLCD.locate(1,2);
 
-    uLCD.printf(" 200hz\n------");
+    uLCD.printf(" 150hz\n------");
 
 int barLevel  = 5;
 bool whileBreaker = false;
@@ -67,7 +62,7 @@ while (1){
             if(barLevel >= 5)
             {
                 uLCD.cls();
-                uLCD.text_width(2); //4X size text
+                uLCD.text_width(2); 
 
                 uLCD.text_height(4);
 
@@ -76,13 +71,13 @@ while (1){
                 uLCD.locate(1,2);
                 uLCD.printf(" N\\A");
                  ThisThread::sleep_for(50ms);
-                char bar[9] = "";
+                char bar[7] = "";
                  for(int count = 0; count <= barLevel; count++)
                     {
                      bar[count] = '-';
                     }
                 uLCD.cls();
-                uLCD.text_width(2); //4X size text
+                uLCD.text_width(2); 
 
                 uLCD.text_height(4);
 
@@ -97,7 +92,7 @@ while (1){
             else{
                 uLCD.cls();
                 barLevel++;
-                uLCD.text_width(2); //4X size text
+                uLCD.text_width(2); 
 
                 uLCD.text_height(4);
 
@@ -110,7 +105,7 @@ while (1){
 
                 uLCD.locate(1,2);
 
-                char bar[9] = "";
+                char bar[7] = "";
                 for(int count = 0; count <= barLevel; count++)
                 {
                     bar[count] = '-';
@@ -132,7 +127,7 @@ while (1){
             if(barLevel <= 0)
             {
                 uLCD.cls();
-                uLCD.text_width(2); //4X size text
+                uLCD.text_width(2); 
 
                 uLCD.text_height(4);
 
@@ -142,14 +137,14 @@ while (1){
                 uLCD.printf(" N\\A");
                 ThisThread::sleep_for(50ms);
 
-                char bar[6] = "";
+                char bar[7] = "";
                 for(int count = 0; count <= barLevel; count++)
                 {
                     bar[count] = '-';
                 }
 
                 uLCD.cls();
-                uLCD.text_width(2); //4X size text
+                uLCD.text_width(2); 
 
                 uLCD.text_height(4);
 
@@ -162,7 +157,7 @@ while (1){
             else{
                 uLCD.cls();
                 barLevel--;
-                uLCD.text_width(2); //4X size text
+                uLCD.text_width(2); 
 
                 uLCD.text_height(4);
 
@@ -175,7 +170,7 @@ while (1){
 
                 uLCD.locate(1,2);
                 
-                char bar[6] = "";
+                char bar[7] = "";
                 for(int count = 0; count <= barLevel; count++)
                 {
                     bar[count] = '-';
