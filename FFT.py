@@ -7,7 +7,7 @@ import serial
 import time
 
 
-Fs = 500.0;  # sampling rate
+Fs = 1000.0;  # sampling rate
 
 Ts = 1/Fs; # sampling interval
 
