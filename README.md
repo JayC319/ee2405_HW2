@@ -300,6 +300,11 @@ plt.show()
 
 s.close()
 ```
+## Result (150 hz)
+Wave before filtering
+![150hz tue before_RC](https://user-images.githubusercontent.com/67352558/113005987-8a40ca80-91a7-11eb-8aa6-f61bd2358182.png)
+Wave after filtering
+![150h tue](https://user-images.githubusercontent.com/67352558/113006065-99277d00-91a7-11eb-92ab-4788dee37543.png)
 
 
 
