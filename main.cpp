@@ -9,7 +9,7 @@ AnalogIn Ain(A0);
 uLCD_4DGL uLCD(D1, D0, D2); 
 BusIn Buttons(D12, D11, D10);
 int frequency[7] = {5,30,40,50,100,150,200};
-float ADCdata[500];
+float ADCdata[1000];
 
 EventQueue eventQueue;
 EventQueue printfQueue;
@@ -17,11 +17,11 @@ EventQueue printfQueue;
 void sampling() {
     while(1) {
 
-        for (int i = 0; i < 500; i++){
+        for (int i = 0; i < 1000; i++){
             ADCdata[i] = Ain;
-           ThisThread::sleep_for(2ms);
+           ThisThread::sleep_for(1ms);
         }
-        for (int i = 0; i < 500; i++){
+        for (int i = 0; i < 1000; i++){
             cout << ADCdata[i] * 3.3 << "\r\n";
         }
         ThisThread::sleep_for(5000ms);
