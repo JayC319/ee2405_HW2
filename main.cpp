@@ -12,7 +12,6 @@ int frequency[9] = {5,10,30,40,50,100,150,200,250};
 float ADCdata[1000];
 
 EventQueue eventQueue;
-EventQueue printfQueue;
 
 void sampling() {
     while(1) {
